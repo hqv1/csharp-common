@@ -1,0 +1,31 @@
+﻿using System;
+using Hqv.CSharp.Common.Components;
+
+namespace Hqv.CSharp.Common.Audit.Logger
+{
+    /// <summary>
+    /// Business events
+    /// </summary>
+    public class BusinessEvent : IBusinessEvent
+    {
+        public BusinessEvent(string entityName, string entityKey, string eventName, int version = 1,  ResponseBase entityObject = null, object additionalMetadata = null)
+        {
+            EntityName = entityName;
+            EntityKey = entityKey;
+            EventName = eventName;
+            Version = version;
+            EventDateTime = DateTime.Now;
+            EntityObject = entityObject;
+            AdditionalMetadata = additionalMetadata;
+        }
+
+        public string CorrelationId { get; set; }
+        public string EntityName { get; }
+        public string EntityKey { get; }
+        public string EventName { get; }
+        public int Version { get; }
+        public DateTime EventDateTime { get; }
+        public object EntityObject { get; set; }
+        public object AdditionalMetadata { get; set; }
+    }
+}
