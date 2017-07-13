@@ -39,6 +39,7 @@ namespace Hqv.CSharp.Common.Audit.Logging
                 entityName: entityName,
                 entityKey: entityKey,
                 eventName: eventName,
+                correlationId: response.Request?.CorrelationId,
                 version: version,
                 entityObject: _settings.ShouldDetailAuditOnSuccessfulEvent ? response : null);
             _logger.Info("Business event succeeded for {@BusinessEvent}", businessEvent);
@@ -50,6 +51,7 @@ namespace Hqv.CSharp.Common.Audit.Logging
                 entityName: entityName,
                 entityKey: entityKey,
                 eventName: eventName,
+                correlationId: response.Request?.CorrelationId,
                 version: version,
                 entityObject: response);
             _logger.Error("Business event failed for {@BusinessEvent}", businessEvent);

@@ -8,11 +8,12 @@ namespace Hqv.CSharp.Common.Audit.Logging
     /// </summary>
     public class BusinessEvent : IBusinessEvent
     {
-        public BusinessEvent(string entityName, string entityKey, string eventName, int version = 1,  ResponseBase entityObject = null, object additionalMetadata = null)
+        public BusinessEvent(string entityName, string entityKey, string eventName, string correlationId, int version = 1,  ResponseBase entityObject = null, object additionalMetadata = null)
         {
             EntityName = entityName;
             EntityKey = entityKey;
             EventName = eventName;
+            CorrelationId = correlationId;
             Version = version;
             EventDateTime = DateTime.Now;
             EntityObject = entityObject;

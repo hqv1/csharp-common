@@ -38,10 +38,11 @@ namespace Hqv.CSharp.Common.Audit.Logging
             {
                 return;
             }
-            var businessEvent = new BusinessEvent(
+            var businessEvent = new BusinessEvent(                
                 entityName: entityName,
                 entityKey: entityKey,
                 eventName: eventName,
+                correlationId: response.Request?.CorrelationId,
                 version: version,
                 entityObject: _settings.ShouldDetailAuditOnSuccessfulEvent ? response : null);
             _logger.Info(businessEvent);
@@ -49,10 +50,11 @@ namespace Hqv.CSharp.Common.Audit.Logging
 
         public void AuditFailure(string entityName, string entityKey, string eventName, ResponseBase response, int version = 1)
         {
-            var businessEvent = new BusinessEvent(
+            var businessEvent = new BusinessEvent(                
                 entityName: entityName,
                 entityKey: entityKey,
                 eventName: eventName,
+                correlationId: response.Request?.CorrelationId,
                 version: version,
                 entityObject: response);
             _logger.Error(CreateLoggingException(response.Errors), businessEvent);

@@ -14,7 +14,7 @@ namespace Hqv.CSharp.Common.Audit.Logging.Serilog.Test
         {
             var settings = new AuditorStructuredResponseBase.Settings(
                 shouldAuditOnSuccessfulEvent: true,
-                shouldDetailAuditOnSuccessfulEvent: true);
+                shouldDetailAuditOnSuccessfulEvent: false);
 
             global::Serilog.ILogger logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()                
@@ -22,14 +22,14 @@ namespace Hqv.CSharp.Common.Audit.Logging.Serilog.Test
                 .CreateLogger(); 
 
             ILoggerStructured mylogger = new Common.Logging.Serilog.Logger(logger);
-            _auditor = new AuditorStructuredResponseBase(settings, mylogger);
+            _auditor = new AuditorStructuredResponseBase(settings, mylogger);            
         }
 
         [Fact]
         [Trait("Category", "Integration")]
         public void Should_AuditSuccess_ToFile()
         {
-            var response = new Response();
+            var response = new Response(new Request(Guid.NewGuid().ToString()));
             response.AddWarning(new Message("This is a warning", null));
             _auditor.AuditSuccess("Widget", "001", "Created", response);
         }
@@ -39,7 +39,7 @@ namespace Hqv.CSharp.Common.Audit.Logging.Serilog.Test
         public void Should_AuditFailure_ToFile()
         {
             var a = 0;
-            var response = new Response();
+            var response = new Response(new Request(Guid.NewGuid().ToString()));
             try
             {
                 var v = 10/a;

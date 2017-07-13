@@ -5,5 +5,9 @@ namespace Hqv.CSharp.Common.Log.NLog.Test
     public class WidgetCleanerResponse : ResponseBase
     {
         public string State { get; set; }
+
+        public WidgetCleanerResponse(RequestBase request) : base(request)
+        {
+        }
     }
 }

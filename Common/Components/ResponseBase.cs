@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 
 namespace Hqv.CSharp.Common.Components
 {
-
     /// <summary>
     /// Response base.
     /// 
@@ -14,10 +13,16 @@ namespace Hqv.CSharp.Common.Components
     ///     
     /// </summary>
     public abstract class ResponseBase
-    {
+    {        
         private readonly ConcurrentBag<Exception> _errors = new ConcurrentBag<Exception>();
         private readonly ConcurrentBag<Message> _warnings = new ConcurrentBag<Message>();
 
+        protected ResponseBase(RequestBase request)
+        {
+            Request = request;
+        }
+
+        public RequestBase Request { get; }
         public virtual string StatusName { get; } = string.Empty;
         public object StatusDetail { get; set; }
         public bool IsValid => !_errors.Any<Exception>();

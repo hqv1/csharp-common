@@ -54,7 +54,7 @@ namespace Hqv.CSharp.Common.Log.NLog.Test
         [Trait("Category", "Integration")]
         public void Should_LogResponseWithErrors()
         {
-            var response = new WidgetCleanerResponse()
+            var response = new WidgetCleanerResponse(new WidgetCleanerRequest(Guid.NewGuid().ToString()))
             {
                 State = "Washed"
             };
