@@ -33,7 +33,12 @@ namespace Hqv.CSharp.Common.App
             process.BeginErrorReadLine();
             process.WaitForExit();
 
-            return new CommandLineResult(_outputBuilder.ToString(), _errorBuilder.ToString());
+            var output = _outputBuilder.ToString();
+            if (output == "\r\n") output = string.Empty;
+            var error = _errorBuilder.ToString();
+            if (error == "\r\n") error = string.Empty;
+
+            return new CommandLineResult(output, error);
         }
 
         private static ProcessStartInfo CreateProcessStartInfo(string appPath, string appArguments)

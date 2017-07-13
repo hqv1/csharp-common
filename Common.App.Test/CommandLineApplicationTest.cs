@@ -17,11 +17,11 @@ namespace Hqv.CSharp.Common.App.Test
 
         [Fact]
         [Trait("Category", "Integration")]
-        public void Test1()
+        public void Should_RunApp_Successfully()
         {
             GivenAValidSetup();
             _result = _app.Run(_appPath, _appArguments);
-            _result.ErrorData.Should().Be("\r\n");
+            _result.ErrorData.Should().BeNullOrEmpty();
             _result.OutputData.Should().Contain("yahoo.com");
         }
 
