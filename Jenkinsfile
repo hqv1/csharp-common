@@ -16,6 +16,10 @@ stage('compile') {
 stage('test') {
     node('windows') {
         unstash 'everything'
+		dir("Common.App.Test") {
+            bat 'dotnet restore'
+            bat 'dotnet test --filter Category=Unit'
+        }	
 		dir("Common.Audit.Logging.Serilog.Test") {
             bat 'dotnet restore'
             bat 'dotnet test --filter Category=Unit'
@@ -36,6 +40,9 @@ stage('publish') {
         unstash 'everything'
         bat 'del /S *.nupkg'
         dir("Common") {
+            bat 'dotnet pack --no-build -c Release'
+        }
+		dir("Common.App") {
             bat 'dotnet pack --no-build -c Release'
         }
 		dir("Common.Audit.Logging") {
