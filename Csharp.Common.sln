@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Logging.Serilog", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Audit.Logging.Serilog.Test", "Common.Audit.Logging.Serilog.Test\Common.Audit.Logging.Serilog.Test.csproj", "{B3711C86-9A5E-4A8C-8D63-86D56788648E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.App", "Common.App\Common.App.csproj", "{2F561FBB-EC85-4918-8F22-248033A53684}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.App.Test", "Common.App.Test\Common.App.Test.csproj", "{1C78618F-6C96-439F-9741-CE3AE55FFF57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +63,14 @@ Global
 		{B3711C86-9A5E-4A8C-8D63-86D56788648E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3711C86-9A5E-4A8C-8D63-86D56788648E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3711C86-9A5E-4A8C-8D63-86D56788648E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F561FBB-EC85-4918-8F22-248033A53684}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F561FBB-EC85-4918-8F22-248033A53684}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F561FBB-EC85-4918-8F22-248033A53684}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F561FBB-EC85-4918-8F22-248033A53684}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C78618F-6C96-439F-9741-CE3AE55FFF57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C78618F-6C96-439F-9741-CE3AE55FFF57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C78618F-6C96-439F-9741-CE3AE55FFF57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C78618F-6C96-439F-9741-CE3AE55FFF57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,5 +79,6 @@ Global
 		{591AA8FB-A153-434D-BBE4-81A7315CAADA} = {B5F006BD-AC56-436C-B34B-CC9321E75E80}
 		{7C430E81-9C89-4AFD-B58E-99C6F2CB3F06} = {B5F006BD-AC56-436C-B34B-CC9321E75E80}
 		{B3711C86-9A5E-4A8C-8D63-86D56788648E} = {B5F006BD-AC56-436C-B34B-CC9321E75E80}
+		{1C78618F-6C96-439F-9741-CE3AE55FFF57} = {B5F006BD-AC56-436C-B34B-CC9321E75E80}
 	EndGlobalSection
 EndGlobal
