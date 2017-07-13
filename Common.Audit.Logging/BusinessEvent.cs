@@ -1,7 +1,7 @@
 ﻿using System;
 using Hqv.CSharp.Common.Components;
 
-namespace Hqv.CSharp.Common.Audit.Logger
+namespace Hqv.CSharp.Common.Audit.Logging
 {
     /// <summary>
     /// Business events

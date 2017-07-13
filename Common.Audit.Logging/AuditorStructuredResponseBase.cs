@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Hqv.CSharp.Common.Components;
+﻿using Hqv.CSharp.Common.Components;
 using Hqv.CSharp.Common.Logging;
 
-namespace Hqv.CSharp.Common.Audit.Logger
+namespace Hqv.CSharp.Common.Audit.Logging
 {
     /// <summary>
-    /// Audit response base. Seems to be the direction I'm going with on auditing.
+    /// Auditor for response base using ILoggerStructured
     /// </summary>
-    public class BusinessAuditorResponseBase : IAuditorResponseBase
+    public class AuditorStructuredResponseBase : IAuditorResponseBase
     {
         public class Settings
         {
@@ -24,13 +21,13 @@ namespace Hqv.CSharp.Common.Audit.Logger
         }
 
         private readonly Settings _settings;
-        private readonly ILogger _logger;
+        private readonly ILoggerStructured _logger;
 
-        public BusinessAuditorResponseBase(Settings settings, ILogger logger) 
+        public AuditorStructuredResponseBase(Settings settings, ILoggerStructured logger)
         {
             _settings = settings;
             _logger = logger;
-        }        
+        }
 
         public void AuditSuccess(string entityName, string entityKey, string eventName, ResponseBase response, int version = 1)
         {
@@ -44,7 +41,7 @@ namespace Hqv.CSharp.Common.Audit.Logger
                 eventName: eventName,
                 version: version,
                 entityObject: _settings.ShouldDetailAuditOnSuccessfulEvent ? response : null);
-            _logger.LogInfo(businessEvent);
+            _logger.Info("Business event succeeded for {@BusinessEvent}", businessEvent);
         }
 
         public void AuditFailure(string entityName, string entityKey, string eventName, ResponseBase response, int version = 1)
@@ -55,17 +52,8 @@ namespace Hqv.CSharp.Common.Audit.Logger
                 eventName: eventName,
                 version: version,
                 entityObject: response);
-            _logger.LogError(businessEvent, CreateLoggingException(response.Errors));
+            _logger.Error("Business event failed for {@BusinessEvent}", businessEvent);
         }
-
-        private static Exception CreateLoggingException(IEnumerable<Exception> exceptions)
-        {
-            var exs = exceptions as Exception[] ?? exceptions.ToArray();
-            if (!exs.Any())
-            {
-                return null;
-            }
-            return exs.Count() == 1 ? exs.First() : new AggregateException(exs);
-        }        
+        
     }
 }

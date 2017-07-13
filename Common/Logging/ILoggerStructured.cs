@@ -7,19 +7,19 @@ namespace Hqv.CSharp.Common.Logging
     /// </summary>
     public interface ILoggerStructured
     {
-        void LogDebug(string messageTemplate, params object[] propertyValues);
-        void LogDebug(Exception exception, string messageTemplate, params object[] propertyValues);
+        void Debug(string messageTemplate, params object[] propertyValues);
+        void Debug(Exception exception, string messageTemplate, params object[] propertyValues);
 
-        void LogInfo(string messageTemplate, params object[] propertyValues);
-        void LogInfo(Exception exception, string messageTemplate, params object[] propertyValues);
+        void Info(string messageTemplate, params object[] propertyValues);
+        void Info(Exception exception, string messageTemplate, params object[] propertyValues);
 
-        void LogWarning(string messageTemplate, params object[] propertyValues);
-        void LogWarning(Exception exception, string messageTemplate, params object[] propertyValues);
+        void Warning(string messageTemplate, params object[] propertyValues);
+        void Warning(Exception exception, string messageTemplate, params object[] propertyValues);
 
-        void LogError(string messageTemplate, params object[] propertyValues);
-        void LogError(Exception exception, string messageTemplate, params object[] propertyValues);
+        void Error(string messageTemplate, params object[] propertyValues);
+        void Error(Exception exception, string messageTemplate, params object[] propertyValues);
 
-        void LogFatal(string messageTemplate, params object[] propertyValues);
-        void LogFatal(Exception exception, string messageTemplate, params object[] propertyValues);
+        void Fatal(string messageTemplate, params object[] propertyValues);
+        void Fatal(Exception exception, string messageTemplate, params object[] propertyValues);
     }
 }

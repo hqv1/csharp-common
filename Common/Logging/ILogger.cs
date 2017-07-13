@@ -8,16 +8,31 @@ namespace Hqv.CSharp.Common.Logging
     /// </summary>
     public interface ILogger
     {
-        void LogInfo(string description, string correlationId = null);
+        void Debug(Exception exception, string messageTemplate, params object[] propertyValues);
+        void Debug(Exception exception, object obj);
+        void Debug(string messageTemplate, params object[] propertyValues);
+        void Debug(object obj);
 
-        void LogInfo(object obj, string correlationId = null);
+        void Info(Exception exception, string messageTemplate, params object[] propertyValues);
+        void Info(Exception exception, object obj);
+        void Info(string messageTemplate, params object[] propertyValues);
+        void Info(object obj);
 
-        void LogWarning(string description, Exception exception = null, string correlationId = null);
 
-        void LogWarning(object obj, Exception exception = null, string correlationId = null);
+        void Warning(Exception exception, string messageTemplate, params object[] propertyValues);
+        void Warning(Exception exception, object obj);
+        void Warning(string messageTemplate, params object[] propertyValues);
+        void Warning(object obj);
 
-        void LogError(string description, Exception exception = null, string correlationId = null);
 
-        void LogError(object obj, Exception exception = null, string correlationId = null);
+        void Error(Exception exception, string messageTemplate, params object[] propertyValues);
+        void Error(Exception exception, object obj);
+        void Error(string messageTemplate, params object[] propertyValues);
+        void Error(object obj);
+
+        void Fatal(Exception exception, string messageTemplate, params object[] propertyValues);
+        void Fatal(Exception exception, object obj);
+        void Fatal(string messageTemplate, params object[] propertyValues);
+        void Fatal(object obj);        
     }
 }

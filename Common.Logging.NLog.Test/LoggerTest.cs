@@ -1,6 +1,7 @@
 ﻿using System;
 using NLog;
 using Xunit;
+using Logger = Hqv.CSharp.Common.Logging.NLog.Logger;
 
 namespace Hqv.CSharp.Common.Log.NLog.Test
 {
@@ -16,16 +17,23 @@ namespace Hqv.CSharp.Common.Log.NLog.Test
 
         [Fact]
         [Trait("Category", "Integration")]
+        public void Should_LogDebug()
+        {
+            _logger.Debug("An object named {0} Says Hi", new {name = "Jason", age = 17});        
+        }
+
+        [Fact]
+        [Trait("Category", "Integration")]
         public void Should_LogInfoString()
         {
-            _logger.LogInfo("This is a test");
+            _logger.Info("This is a test");
         }
 
         [Fact]
         [Trait("Category", "Integration")]
         public void Should_LogInfoObject()
         {
-            _logger.LogInfo(new WidgetCleanerBusinessEvent("100", new WidgetModel {Id = 100, Color = "Blue"}, null));
+            _logger.Info(new WidgetCleanerBusinessEvent("100", new WidgetModel {Id = 100, Color = "Blue"}, null));
         }
 
         [Fact]
@@ -39,7 +47,7 @@ namespace Hqv.CSharp.Common.Log.NLog.Test
             };
 
             var aggregateException = new AggregateException(exceptions);
-            _logger.LogWarning(new WidgetCleanerBusinessEvent("100", new WidgetModel { Id = 100, Color = "Blue" }, null), aggregateException);
+            _logger.Warning(aggregateException, new WidgetCleanerBusinessEvent("100", new WidgetModel { Id = 100, Color = "Blue" }, null));
         }
 
         [Fact]
@@ -66,7 +74,7 @@ namespace Hqv.CSharp.Common.Log.NLog.Test
             {
                 response.AddError(ex);
             }
-            _logger.LogWarning(new WidgetCleanerBusinessEvent("100", response, null), new AggregateException(response.Errors));
+            _logger.Warning(new AggregateException(response.Errors), new WidgetCleanerBusinessEvent("100", response, null));
         }
     }
 }

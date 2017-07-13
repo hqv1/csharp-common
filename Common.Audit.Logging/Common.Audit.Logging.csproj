@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <AssemblyName>Hqv.CSharp.Common.Audit.Logging</AssemblyName>
+    <RootNamespace>Hqv.CSharp.Common.Audit.Logging</RootNamespace>
+    <Version>0.2.0</Version>
+    <Authors>Hqv</Authors>
+    <Company>Hqv</Company>
+    <Product>Hqv</Product>
+    <Description>Auditing using ILogger and ILoggerStructured</Description>
+    <PackageId>Hqv.CSharp.Common.Audit.Logging</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
+  </ItemGroup>
+
+</Project>

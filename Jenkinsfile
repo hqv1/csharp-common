@@ -16,14 +16,18 @@ stage('compile') {
 stage('test') {
     node('windows') {
         unstash 'everything'
-        dir("Common.Test") {
+		dir("Common.Audit.Logging.Serilog.Test") {
             bat 'dotnet restore'
             bat 'dotnet test --filter Category=Unit'
-        }
+        }	
 		dir("Common.Log.NLog.Test") {
             bat 'dotnet restore'
             bat 'dotnet test --filter Category=Unit'
         }	
+        dir("Common.Test") {
+            bat 'dotnet restore'
+            bat 'dotnet test --filter Category=Unit'
+        }		
     }
 }
  
@@ -34,10 +38,13 @@ stage('publish') {
         dir("Common") {
             bat 'dotnet pack --no-build -c Release'
         }
-		dir("Common.Audit.Logger") {
+		dir("Common.Audit.Logging") {
             bat 'dotnet pack --no-build -c Release'
         }
-		dir("Common.Log.NLog") {
+		dir("Common.Logging.NLog") {
+            bat 'dotnet pack --no-build -c Release'
+        }
+		dir("Common.Logging.Serilog") {
             bat 'dotnet pack --no-build -c Release'
         }
         dir("Common.Web") {
