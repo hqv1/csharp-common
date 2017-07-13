@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text;
 
-namespace Hqv.CSharp.Common.Common.App
+namespace Hqv.CSharp.Common.App
 {
     /// <summary>
     /// Command line application helper

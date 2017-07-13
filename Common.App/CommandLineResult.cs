@@ -1,4 +1,4 @@
-namespace Hqv.CSharp.Common.Common.App
+namespace Hqv.CSharp.Common.App
 {
     public class CommandLineResult
     {

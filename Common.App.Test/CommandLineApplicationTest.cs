@@ -1,9 +1,7 @@
-using System;
 using FluentAssertions;
-using Hqv.CSharp.Common.Common.App;
 using Xunit;
 
-namespace Common.App.Test
+namespace Hqv.CSharp.Common.App.Test
 {
     public class CommandLineApplicationTest
     {
