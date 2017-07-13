@@ -20,7 +20,7 @@ stage('test') {
             bat 'dotnet restore'
             bat 'dotnet test --filter Category=Unit'
         }	
-		dir("Common.Log.NLog.Test") {
+		dir("Common.Logging.NLog.Test") {
             bat 'dotnet restore'
             bat 'dotnet test --filter Category=Unit'
         }	
