@@ -5,20 +5,21 @@
     <AssemblyName>Hqv.CSharp.Common</AssemblyName>
     <RootNamespace>Hqv.CSharp.Common</RootNamespace>
     <Description>Commonly used C# interfaces, objects, extensions, and methods.</Description>
-    <Version>0.2.2</Version>
+    <Version>0.2.3</Version>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Company>Hqv</Company>
     <Product>Hqv</Product>
-    <AssemblyVersion>0.2.2.0</AssemblyVersion>
-    <FileVersion>0.2.2.0</FileVersion>
+    <AssemblyVersion>0.2.3.0</AssemblyVersion>
+    <FileVersion>0.2.3.0</FileVersion>
     <Authors>Hqv</Authors>
     <PackageReleaseNotes>Changed ILogger interface</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="7.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.7.3" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.7.6" />
     <PackageReference Include="System.Reflection" Version="4.3.0" />
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
   </ItemGroup>
