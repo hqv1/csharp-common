@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Text;
 
 namespace Hqv.CSharp.Common.App
@@ -8,8 +9,31 @@ namespace Hqv.CSharp.Common.App
     /// </summary>
     public class CommandLineApplication
     {
+        /// <summary>
+        /// Settings
+        /// </summary>
+        public class Settings
+        {            
+            public Settings(bool displayOutputOnConsole)
+            {
+                DisplayOutputOnConsole = displayOutputOnConsole;
+
+            }
+
+            /// <summary>
+            /// Display error and output information on console window
+            /// </summary>
+            public bool DisplayOutputOnConsole { get; }
+        }
+
         private readonly StringBuilder _errorBuilder = new StringBuilder();
         private readonly StringBuilder _outputBuilder = new StringBuilder();
+        private readonly Settings _settings;
+
+        public CommandLineApplication(Settings settings = null)
+        {
+            _settings = settings ?? new Settings(false);
+        }
 
         /// <summary>
         /// Run an application in the command line. Does not handle any exceptions.
@@ -33,10 +57,8 @@ namespace Hqv.CSharp.Common.App
             process.BeginErrorReadLine();
             process.WaitForExit();
 
-            var output = _outputBuilder.ToString();
-            if (output == "\r\n") output = string.Empty;
-            var error = _errorBuilder.ToString();
-            if (error == "\r\n") error = string.Empty;
+            var output = _outputBuilder.ToString().Trim();            
+            var error = _errorBuilder.ToString().Trim();            
 
             return new CommandLineResult(output, error);
         }
@@ -56,11 +78,19 @@ namespace Hqv.CSharp.Common.App
 
         private void ErrorHandler(object sender, DataReceivedEventArgs e)
         {
+            if (_settings.DisplayOutputOnConsole)
+            {
+                Console.WriteLine(e.Data);
+            }
             _errorBuilder.AppendLine(e.Data);
         }
 
         private void OutputHandler(object sender, DataReceivedEventArgs e)
         {
+            if (_settings.DisplayOutputOnConsole)
+            {
+                Console.WriteLine(e.Data);
+            }
             _outputBuilder.AppendLine(e.Data);
         }
     }
