@@ -4,7 +4,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Hqv.CSharp.Common.Logging.NLog
 {
-    public class Logger : ILogger
+    public class Logger : IHqvLogger
     {
         private readonly global::NLog.ILogger _logger;
         private readonly JsonSerializerSettings _jsonSerializerSettings;

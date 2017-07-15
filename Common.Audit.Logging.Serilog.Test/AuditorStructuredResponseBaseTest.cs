@@ -8,21 +8,21 @@ namespace Hqv.CSharp.Common.Audit.Logging.Serilog.Test
 {
     public class AuditorStructuredResponseBaseTest
     {
-        private readonly AuditorStructuredResponseBase _auditor;
+        private readonly AuditorResponseBase _auditor;
 
         public AuditorStructuredResponseBaseTest()
         {
-            var settings = new AuditorStructuredResponseBase.Settings(
+            var settings = new AuditorResponseBase.Settings(
                 shouldAuditOnSuccessfulEvent: true,
                 shouldDetailAuditOnSuccessfulEvent: false);
 
             global::Serilog.ILogger logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()                
                 .WriteTo.File(new JsonFormatter(), "logs\\myapp.txt")
-                .CreateLogger(); 
+                .CreateLogger();            
 
-            ILoggerStructured mylogger = new Common.Logging.Serilog.Logger(logger);
-            _auditor = new AuditorStructuredResponseBase(settings, mylogger);            
+            IHqvLogger mylogger = new Common.Logging.Serilog.Logger(logger);            
+            _auditor = new AuditorResponseBase(settings, mylogger);
         }
 
         [Fact]

@@ -5,8 +5,10 @@ namespace Hqv.CSharp.Common.Logging
     /// <summary>
     /// Logger interface. Created a customer interface instead of using the Microsoft or other
     /// vendor specific interface so we can switch them up if needed. 
+    /// 
+    /// Created our own interface instead of using Liblog because we're doing additional work with NLog.
     /// </summary>
-    public interface ILogger
+    public interface IHqvLogger
     {
         void Debug(Exception exception, string messageTemplate, params object[] propertyValues);
         void Debug(Exception exception, object obj);
