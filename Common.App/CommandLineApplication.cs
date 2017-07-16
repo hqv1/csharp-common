@@ -41,7 +41,7 @@ namespace Hqv.CSharp.Common.App
         /// <param name="appPath">Path to the application. Can be just the file name (e.g. ping.exe) if the path is known</param>
         /// <param name="appArguments">Arguments for the application</param>
         /// <returns>Result from the output and error streams.</returns>
-        public CommandLineResult Run(string appPath, string appArguments)
+        public ProcessResult Run(string appPath, string appArguments)
         {
             _errorBuilder.Clear();
             _outputBuilder.Clear();
@@ -60,7 +60,7 @@ namespace Hqv.CSharp.Common.App
             var output = _outputBuilder.ToString().Trim();            
             var error = _errorBuilder.ToString().Trim();            
 
-            return new CommandLineResult(output, error);
+            return new ProcessResult(output, error);
         }
 
         private static ProcessStartInfo CreateProcessStartInfo(string appPath, string appArguments)

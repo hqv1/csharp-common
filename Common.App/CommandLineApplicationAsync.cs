@@ -1,50 +1,68 @@
 using System;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Hqv.CSharp.Common.App
 {
+    /// <summary>
+    /// Run command line application async. Able to cancel and check on progress.
+    /// 
+    /// https://stackoverflow.com/questions/10788982/is-there-any-async-equivalent-of-process-start/10789196
+    /// </summary>
     public class CommandLineApplicationAsync
-    {
-        /// <summary>
-        /// Information retured from ProcessCompleted
-        /// </summary>
-        public class ProcessCompletedArgs : EventArgs
-        {
-            public CommandLineResult Result { get; set; }
-        }
-
-        public class Settings
-        {
-            public Settings(bool displayOutputOnConsole)
-            {
-                DisplayOutputOnConsole = displayOutputOnConsole;
-
-            }
-
-            /// <summary>
-            /// Display error and output information on console window
-            /// </summary>
-            public bool DisplayOutputOnConsole { get; }
-        }
-
-        /// <summary>
-        /// This event is called when the process is completed
-        /// </summary>
-        public event EventHandler<ProcessCompletedArgs> ProcessCompleted;        
-        
-        private readonly StringBuilder _errorBuilder = new StringBuilder();
-        private bool _hasProcessExited;
-        private readonly StringBuilder _outputBuilder = new StringBuilder();
+    {        
         private Process _process;
-        private readonly Settings _settings;
+        private readonly StringBuilder _standardErrorBuilder = new StringBuilder();
+        private readonly TaskCompletionSource<string> _standardErrorResults = new TaskCompletionSource<string>();
+        private readonly StringBuilder _standardOutputBuilder = new StringBuilder();
+        private readonly TaskCompletionSource<string> _standardOutputResults = new TaskCompletionSource<string>();        
+        private TaskCompletionSource<ProcessResult> _taskCompletionSource;
+        private IProgress<ProcessProgress> _progress;
 
-        public CommandLineApplicationAsync(Settings settings = null)
+        public Task<ProcessResult> RunAsync(
+            string appPath, 
+            string appArguments, 
+            IProgress<ProcessProgress> progress = null,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
-            _settings = settings ?? new Settings(false);
+            _progress = progress;
+            _taskCompletionSource = new TaskCompletionSource<ProcessResult>();
+
+            if (cancellationToken.IsCancellationRequested)
+            {                
+                _taskCompletionSource.SetCanceled();
+                return _taskCompletionSource.Task;                
+            }
+                        
+            CreateProcess(appPath, appArguments);            
+            var started = _process.Start();
+            if (!started)
+            {                
+                throw new InvalidOperationException("Could not start process" );
+            }
+            _process.BeginOutputReadLine();
+            _process.BeginErrorReadLine();
+
+            cancellationToken.Register(CancellationRequested);
+
+            return _taskCompletionSource.Task;
+        }
+        
+        private void CancellationRequested()
+        {            
+            if (_process.HasExited) return;
+            try
+            {
+                _process.Kill();
+            }
+            catch (InvalidOperationException)
+            {
+            }
         }
 
-        public void RunBegin(string appPath, string appArguments)
+        private void CreateProcess(string appPath, string appArguments)
         {
             _process = new Process
             {
@@ -56,50 +74,44 @@ namespace Hqv.CSharp.Common.App
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     CreateNoWindow = true
-                }
+                },
+                EnableRaisingEvents = true
             };
+
             _process.OutputDataReceived += OutputHandler;
             _process.ErrorDataReceived += ErrorHandler;
-            _process.Start();
-            _process.BeginOutputReadLine();
-            _process.BeginErrorReadLine();
-            _process.EnableRaisingEvents = true;
-            _process.Exited += OnProcessExited;            
-        }
-
-        public bool KillProcess()
-        {
-            if (_hasProcessExited) return false;
-            _process.Kill();
-            return true;
+            _process.Exited += OnProcessExited;
         }
 
         private void ErrorHandler(object sender, DataReceivedEventArgs e)
         {
-            if (_settings.DisplayOutputOnConsole)
+            if (e.Data != null)
             {
-                Console.WriteLine(e.Data);
+                _progress?.Report(new ProcessProgress { ErrorData = e.Data });
+                _standardErrorBuilder.AppendLine(e.Data);
             }
-            _errorBuilder.AppendLine(e.Data);
-        }
-
-        private void OutputHandler(object sender, DataReceivedEventArgs e)
-        {
-            if (_settings.DisplayOutputOnConsole)
-            {
-                Console.WriteLine(e.Data);
-            }
-            _outputBuilder.AppendLine(e.Data);
+            else
+                _standardErrorResults.SetResult(_standardErrorBuilder.ToString());
         }
 
         private void OnProcessExited(object sender, EventArgs e)
         {
-            _hasProcessExited = true;
-            ProcessCompleted?.Invoke(this,
-                new ProcessCompletedArgs
-                {
-                    Result = new CommandLineResult(_outputBuilder.ToString().Trim(), _errorBuilder.ToString().Trim())
-                });
+            _taskCompletionSource.TrySetResult(new ProcessResult(
+                _standardOutputResults.Task.Result,
+                _standardErrorResults.Task.Result,
+                _process.ExitCode));
+            _process.Dispose();
         }
+
+        private void OutputHandler(object sender, DataReceivedEventArgs e)
+        {
+            if (e.Data != null)
+            {
+                _progress?.Report(new ProcessProgress {OutputData = e.Data});
+                _standardOutputBuilder.AppendLine(e.Data);
+            }                
+            else
+                _standardOutputResults.SetResult(_standardOutputBuilder.ToString());
+        }        
     }
 }

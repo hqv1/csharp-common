@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using System.Threading;
 using FluentAssertions;
 using Xunit;
@@ -9,8 +11,7 @@ namespace Hqv.CSharp.Common.App.Test
         private readonly CommandLineApplicationAsync _app;
         private string _appPath;
         private string _appArguments;
-        private CommandLineResult _result;
-        private readonly ManualResetEvent _resetEvent = new ManualResetEvent(false);
+        private ProcessResult _result;
 
         public CommandLineApplicationAsyncTest()
         {
@@ -22,30 +23,53 @@ namespace Hqv.CSharp.Common.App.Test
         public void Should_RunApp_Successfully()
         {
             GivenAValidSetup();
-            _app.ProcessCompleted += AppOnProcessCompleted;
-            _app.RunBegin(_appPath,_appArguments);
-            
-            _resetEvent.WaitOne();
-
+            _result = _app.RunAsync(_appPath, _appArguments).Result;
             _result.ErrorData.Should().BeNullOrEmpty();
             _result.OutputData.Should().Contain("yahoo.com");
         }
 
         [Fact]
         [Trait("Category", "Integration")]
-        public void Should_QuitApp_BeforeCompleted()
+        public void Should_RunApp_Successfully_WithProgress()
         {
+            var progress = new Progress<ProcessProgress>(p =>
+            {
+                if (!string.IsNullOrEmpty(p.ErrorData))
+                {
+                    Debug.WriteLine(p.ErrorData);
+                }
+                if (!string.IsNullOrEmpty(p.OutputData))
+                {
+                    Debug.WriteLine(p.OutputData);
+                }
+            });
             GivenAValidSetup();
-            _app.ProcessCompleted += AppOnProcessCompleted;
-            _app.RunBegin(_appPath, _appArguments);            
-            var killProcess = _app.KillProcess();
-            killProcess.Should().BeTrue();
+            _result = _app.RunAsync(_appPath, _appArguments, progress).Result;
+            _result.ErrorData.Should().BeNullOrEmpty();
+            _result.OutputData.Should().Contain("yahoo.com");
         }
 
-        private void AppOnProcessCompleted(object sender, CommandLineApplicationAsync.ProcessCompletedArgs processCompletedArgs)
+        [Fact]
+        [Trait("Category", "Integration")]
+        public void Should_CancelApp()
         {
-            _result = processCompletedArgs.Result;
-            _resetEvent.Set();            
+            GivenAValidSetup();
+            var cancellationTokenSource = new CancellationTokenSource();
+            var task = _app.RunAsync(_appPath, _appArguments, cancellationToken: cancellationTokenSource.Token);
+            cancellationTokenSource.Cancel();
+            var result = task.Result;
+        }
+
+        [Fact]
+        [Trait("Category", "Integration")]
+        public void Should_CancelAppImmediately()
+        {
+            GivenAValidSetup();            
+            var task = _app.RunAsync(_appPath, _appArguments, cancellationToken: new CancellationToken(true));
+            if (!task.IsCanceled)
+            {
+                var result = task.Result;
+            }
         }
 
         private void GivenAValidSetup()

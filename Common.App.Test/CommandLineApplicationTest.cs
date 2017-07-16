@@ -8,7 +8,7 @@ namespace Hqv.CSharp.Common.App.Test
         private readonly CommandLineApplication _app;
         private string _appPath;
         private string _appArguments;
-        private CommandLineResult _result;
+        private ProcessResult _result;
 
         public CommandLineApplicationTest()
         {
