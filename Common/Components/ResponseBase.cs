@@ -23,7 +23,7 @@ namespace Hqv.CSharp.Common.Components
         }
 
         public RequestBase Request { get; }
-        public virtual string StatusName { get; } = string.Empty;
+        public string StatusName { get; set; }
         public object StatusDetail { get; set; }
         public bool IsValid => !_errors.Any<Exception>();
         [JsonIgnore]
