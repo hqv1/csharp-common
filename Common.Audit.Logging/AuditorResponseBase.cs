@@ -14,7 +14,7 @@ namespace Hqv.CSharp.Common.Audit.Logging
     /// to the log. I'm added a [JsonIgnore] to Response to not serialize the exception. None of that is needed in 
     /// Serilog. So how to get AuditorResponseBase to know the difference? By using different Logger interfaces.
     /// </summary>
-    public class AuditorResponseBase : IAuditorResponseBase
+    public class AuditorResponseBase : IAuditor, IAuditorResponseBase
     {
         public class Settings
         {
@@ -42,7 +42,17 @@ namespace Hqv.CSharp.Common.Audit.Logging
                 if (logger is IHqvLoggerStructured) _settings.ShouldCreateExceptionForAuditing = false;
                 else _settings.ShouldCreateExceptionForAuditing = true;
             }
-        }        
+        }
+
+        public void AuditSuccess(IBusinessEvent businessEvent)
+        {
+            _logger.Info(businessEvent);
+        }
+
+        public void AuditFailure(IBusinessEvent businessEvent)
+        {
+            _logger.Error(businessEvent);
+        }
 
         public void AuditSuccess(string entityName, string entityKey, string eventName, ResponseBase response, int version = 1)
         {
