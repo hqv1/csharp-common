@@ -5,12 +5,12 @@
     <AssemblyName>Hqv.CSharp.Common</AssemblyName>
     <RootNamespace>Hqv.CSharp.Common</RootNamespace>
     <Description>Commonly used C# interfaces, objects, extensions, and methods.</Description>
-    <Version>0.2.5</Version>
+    <Version>0.2.6</Version>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Company>Hqv</Company>
     <Product>Hqv</Product>
-    <AssemblyVersion>0.2.5.0</AssemblyVersion>
-    <FileVersion>0.2.5.0</FileVersion>
+    <AssemblyVersion>0.2.6.0</AssemblyVersion>
+    <FileVersion>0.2.6.0</FileVersion>
     <Authors>Hqv</Authors>
     <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>

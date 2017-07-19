@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Linq;
+using FluentValidation;
 using Hqv.CSharp.Common.Exceptions;
 
 namespace Hqv.CSharp.Common.Validations
@@ -12,7 +13,8 @@ namespace Hqv.CSharp.Common.Validations
             var validationResult = validator.Validate(obj);
             if (validationResult.IsValid) return;
 
-            var exception = new HqvException("Validation failed");
+            var message = string.Join(".  ", validationResult.Errors.Select(x => x.ErrorMessage));
+            var exception = new HqvException($"Validation failed. Detail is {message}");           
             exception.Data["errors"] = validationResult.Errors;
             throw exception;
         }
@@ -23,7 +25,8 @@ namespace Hqv.CSharp.Common.Validations
             var validationResult = validator.Validate(obj);
             if (validationResult.IsValid) return;
 
-            var exception = new HqvException("Validation failed");
+            var message = string.Join(".  ", validationResult.Errors.Select(x => x.ErrorMessage));
+            var exception = new HqvException($"Validation failed. Detail is {message}");
             exception.Data["errors"] = validationResult.Errors;
             throw exception;
         }
