@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Hqv.CSharp.Common.Web</AssemblyName>
     <RootNamespace>Hqv.CSharp.Common.Web</RootNamespace>
     <Authors>Hqv</Authors>
     <Company>Hqv</Company>
     <Product>Hqv</Product>
-    <AssemblyVersion>0.1.0.0</AssemblyVersion>
-    <FileVersion>0.1.0.0</FileVersion>
-    <Version>0.0.8</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+    <Version>2.0.0</Version>
     <Description>Commonly used C# interfaces, objects, extensions, and methods for Web Apis and MVC</Description>
   </PropertyGroup>
 

@@ -6,9 +6,10 @@ using Hqv.CSharp.Common.Logging;
 
 namespace Hqv.CSharp.Common.Audit.Logging
 {
+   
+   
     /// <summary>
     /// Audit response base. Seems to be the direction I'm going with on auditing.
-    /// 
     /// Doing a hack for Serilog. Serilog is able to serialize exceptions within the response object, but NLog can't.
     /// So for NLog, I'm taking the list of exceptions, creating an aggregate exception and that's the exception going
     /// to the log. I'm added a [JsonIgnore] to Response to not serialize the exception. None of that is needed in 

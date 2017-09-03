@@ -57,6 +57,9 @@ stage('publish') {
         dir("Common.Web") {
             bat 'dotnet pack --no-build -c Release'
         }
+		dir("Common.Web.Client") {
+            bat 'dotnet pack --no-build -c Release'
+        }
         bat "${nuget_path} push **\\*.nupkg ${nuget_server_key} -Source ${nuget_server}"
         archiveArtifacts '**\\*.nupkg'
     }
